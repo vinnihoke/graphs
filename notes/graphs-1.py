@@ -142,10 +142,49 @@ class Graph:
                 for next_vert in self.get_neighbors(v):
                     q.enqueue(next_vert)
 
-    def dft(self, starting_vertex_id):
+    def dft(self, starting_vertex):
+        """
+        Print each vertex in depth-first order
+        beginning from starting_vertex.
+        """
+        # Create an empty stack and push the starting vertex id
+        s = Stack()
+        s.push(starting_vertex)
 
-        # implement this with a stack rather than a queue.
-        # Search means to get the item and path.
+        # Create a set to store visited vertices
+        visited = set()
+
+        # While the stack is not empty
+        while s.size() > 0:
+
+            # Pop the last vertex
+            v = s.pop()
+
+            # If that vertex has not been visited
+            if v not in visited:
+
+                # Visit it
+                print(v)
+
+                # Mark it as visited
+                visited.add(v)
+
+                for next_vert in self.get_neighbors(v):
+                    s.push(next_vert)
+
+    def bfs(self, starting_vertex_id, target_vertex_id):
+    # Create an empty queue and enqueue A PATH TO the starting vertex ID
+    # Create a Set to store visited vertices
+    # While the queue is not empty...
+        # Dequeue the first PATH
+        # Grab the last vertex from the PATH
+        # If that vertex has not been visited...
+            # CHECK IF IT'S THE TARGET
+              # IF SO, RETURN PATH
+            # Mark it as visited...
+            # Then add A PATH TO its neighbors to the back of the queue
+              # COPY THE PATH
+              # APPEND THE NEIGHOR TO THE BACK
 
 
 g = Graph()

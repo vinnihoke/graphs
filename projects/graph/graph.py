@@ -3,9 +3,11 @@ Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
 
+
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+
     def __init__(self):
         self.vertices = {}
 
@@ -97,7 +99,6 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -105,7 +106,43 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # Create an empty queue and enqueue A PATH TO the starting vertex ID
+
+        q = Queue()
+        q.enqueue(starting_vertex)
+
+        path = []
+        path.append(starting_vertex)
+
+        # Create a Set to store visited vertices
+        visited = set()
+
+        # While the queue is not empty...
+        while q.size() > 0:
+            # Dequeue the first PATH
+            v = q.dequeue()
+
+            # Grab the last vertex from the PATH
+            last = path[-1]
+
+            # If that vertex has not been visited...
+            if v not in visited:
+                # CHECK IF IT'S THE TARGET
+                if last is destination_vertex:
+                    # IF SO, RETURN PATH
+                    return path
+
+                # Mark it as visited...
+                visited.add(v)
+
+
+                # Then add A PATH TO its neighbors to the back of the queue
+                for next_vert in self.get_neighbors(v):
+                    # COPY THE PATH
+                    q.enqueue(next_vert)
+
+                    # APPEND THE NEIGHOR TO THE BACK
+                    path.append(next_vert)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -124,6 +161,7 @@ class Graph:
         This should be done using recursion.
         """
         pass  # TODO
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
