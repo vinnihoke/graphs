@@ -133,11 +133,6 @@ class SocialGraph:
                     copy_path.append(neighbor)
                     q.enqueue(copy_path)
 
-
-        # Add to visited
-
-
-
         return visited
 
 
