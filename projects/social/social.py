@@ -1,6 +1,22 @@
+import random
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
 class User:
     def __init__(self, name):
         self.name = name
+
 
 class SocialGraph:
     def __init__(self):
@@ -42,11 +58,29 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(0, num_users):
+            self.add_user(f"User {i}")
 
-        # Create friendships
+        # Create Frienships
+        # Generate all possible friendship combinations
+        possible_friendships = []
+
+        # Avoid duplicates by ensuring the first number is smaller than the second
+        for user_id in self.users:
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                possible_friendships.append((user_id, friend_id))
+
+        # Shuffle the possible friendships
+        random.shuffle(possible_friendships)
+
+        # Create friendships for the first X pairs of the list
+        # X is determined by the formula: num_users * avg_friendships // 2
+        # Need to divide by 2 since each add_friendship() creates 2 friendships
+        for i in range(num_users * avg_friendships // 2):
+            friendship = possible_friendships[i]
+            self.add_friendship(friendship[0], friendship[1])
 
     def get_all_social_paths(self, user_id):
         """
@@ -55,16 +89,63 @@ class SocialGraph:
         Returns a dictionary containing every user in that user's
         extended network with the shortest friendship path between them.
 
+        Shortest is the keyword for a breadth first traversal.
+
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        # Because it wants shortest that would be breadth first.
+        # Extended network tells us it's a traverasal or connected component.
+
+        # Planning - How are we going to build the graph? See above, it's already built.
+        # Start with the given user id, do a bft, return the path to each friend.
+
+        # Create queue
+        q = Queue()
+
+        # Enqueue path
+        q.enqueue([user_id])
+
+        # Create visited
+        visited = {}  # Note that this is a dictionary, not a set
+
+        # while queue is not empty
+        while q.size() > 0:
+
+            # Dequeue first path
+            path = q.dequeue()
+
+            vertex = path[-1]
+
+            # If not visited
+            if vertex not in visited:
+
+                # Do the thing
+                # What do we need to do?
+                # Add to visited
+                visited[vertex] = path
+
+                # For each neighbor of vertex
+                for neighbor in self.friendships[vertex]:
+
+                    # Copy path and enqueue
+                    copy_path = path[:]
+                    copy_path.append(neighbor)
+                    q.enqueue(copy_path)
+
+
+        # Add to visited
+
+
+
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
+    print("Friendships")
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
+    print("Connections")
     print(connections)
