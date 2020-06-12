@@ -130,48 +130,76 @@ class Graph:
 
 
     def populate_graph(self):
+        navigation = ['n', 's', 'e', 'w']
         opposites = {
-            "n": "s",
-            "s": "n",
-            "w": "e",
-            "e": "w"
+            'n': 's',
+            's': 'n',
+            'w': 'e',
+            'e': 'w'
         }
-        
-        for _ in range(10):
 
-            # Good stopping point.
-            # I think this needs some sort of tracking now. Have we visited here? If so, change direction to something other than the opposite.
-            # Might need a stack of some kind?
-
-            # visited = {}
-            current_id = player.current_room.id
-
-            if player.current_room.get_room_in_direction(self.direction) == None:
-                self.direction = opposites[self.direction]
-                    
-
-
-            print("Opposites", opposites)
-            print("Current Room ID: ", current_id)
-            print("Current Direction", self.direction)
-            print("Get exits :139 ", player.current_room.get_exits())
-            print('\n')
-            time.sleep(3)
-
-            self.rooms[current_id] = { key: "" for key in player.current_room.get_exits()}
+        # Good stopping point.
+        # I think this needs some sort of tracking now. Have we visited here? If so, change direction to something other than the opposite.
+        # Might need a stack of some kind?
             
-            player.travel(self.direction)
-            next_id = player.current_room.id
 
-            self.rooms[next_id] = { key: "" for key in player.current_room.get_exits()}
+        # This let's us know if we're going to hit a wall or not. If it's not None go, if it is... switch the direction.
+        # player.current_room.get_room_in_direction(self.direction)
 
-            # print(str(next_id))
+        current_id = player.current_room.id
+        iter = 50
 
-            # Map around
-            self.rooms[current_id][self.direction] = next_id
-            self.rooms[next_id][opposites[self.direction]] = current_id
-               
-                
+        for _ in range(iter):
+                print("Current room id: ", player.current_room.id)
+                print("Direction is: ", self.direction)
+                print('\n')
+                time.sleep(1)
+
+                if player.current_room.get_room_in_direction(self.direction):
+                    self.rooms[current_id] = { key: "" for key in player.current_room.get_exits()}
+                    
+                    player.travel(self.direction)
+                    next_id = player.current_room.id
+
+                    self.rooms[next_id] = { key: "" for key in player.current_room.get_exits()}
+
+                    # Map around
+                    self.rooms[current_id][self.direction] = next_id
+                    self.rooms[next_id][opposites[self.direction]] = current_id
+                    # s.push(next_id)
+
+                else:
+                    previous_direction = self.direction
+                    current_moves = player.current_room.get_exits()
+                    if opposites[previous_direction] in current_moves:
+                        print("Oops, can't go that way.")
+                        if len(current_moves) == 1:
+                            print("I'll turn back.")
+                            self.direction = current_moves[0]
+                        else:
+                            print("Haven't been that way yet.")
+                            current_moves.remove(opposites[previous_direction])
+                            self.direction = current_moves[0]
+                        
+
+                    # new_direction = 
+                    # if new_direction == opposites[previous_direction]:
+                    #     new_direction = navigation.pop()
+                    #     print("Direction switch attempt", new_direction)
+
+                    # navigation.insert(0, new_direction)
+                    # self.direction = navigation[0]
+
+
+                # time.sleep(3)
+
+
+# Previous direction is 's'
+
+# Current exits are ["n", "w"]
+
+
+
 
 
         
