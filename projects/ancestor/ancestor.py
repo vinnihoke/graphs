@@ -34,7 +34,11 @@ class Graph:
 
     def add_vertex(self, vertex_id):
         # This initializes a blank set at the added id
-        self.vertices[vertex_id] = set()
+        # self.vertices[vertex_id] = set()
+
+        # Leana's solution
+        if vertex_id not in self.vertices:
+          self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         # Perform only if both vertices are in the graph.

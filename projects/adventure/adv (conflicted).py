@@ -4,7 +4,6 @@ from world import World
 
 import random
 from ast import literal_eval
-import time
 
 # Load world
 world = World()
@@ -136,27 +135,25 @@ class Graph:
             "w": "e",
             "e": "w"
         }
-        
-        for _ in range(10):
+        for _ in range(8):
 
             # Good stopping point.
             # I think this needs some sort of tracking now. Have we visited here? If so, change direction to something other than the opposite.
             # Might need a stack of some kind?
 
-            # visited = {}
-            current_id = player.current_room.id
+            visited = {}
 
             if player.current_room.get_room_in_direction(self.direction) == None:
                 self.direction = opposites[self.direction]
-                    
-
+                # Maybe a swap syntax here to shuffle opposites around?
+                opposites["n"], opposites["s"] = opposites["w"], opposites["e"]
 
             print("Opposites", opposites)
+
+            current_id = player.current_room.id
+
             print("Current Room ID: ", current_id)
-            print("Current Direction", self.direction)
             print("Get exits :139 ", player.current_room.get_exits())
-            print('\n')
-            time.sleep(3)
 
             self.rooms[current_id] = { key: "" for key in player.current_room.get_exits()}
             

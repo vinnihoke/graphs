@@ -4,7 +4,6 @@ from world import World
 
 import random
 from ast import literal_eval
-import time
 
 # Load world
 world = World()
@@ -136,41 +135,36 @@ class Graph:
             "w": "e",
             "e": "w"
         }
-        
-        for _ in range(10):
+        for _ in range(8):
 
             # Good stopping point.
             # I think this needs some sort of tracking now. Have we visited here? If so, change direction to something other than the opposite.
             # Might need a stack of some kind?
 
-            # visited = {}
-            current_id = player.current_room.id
+            visited = set()
 
             if player.current_room.get_room_in_direction(self.direction) == None:
                 self.direction = opposites[self.direction]
-                    
 
+            current_id = player.current_room.id
 
-            print("Opposites", opposites)
-            print("Current Room ID: ", current_id)
-            print("Current Direction", self.direction)
-            print("Get exits :139 ", player.current_room.get_exits())
-            print('\n')
-            time.sleep(3)
+            if current_id not in visited:
+                print(visited)
+                print("Current Room ID: ", current_id)
+                print("Get exits :139 ", player.current_room.get_exits())
+                self.rooms[current_id] = { key: "" for key in player.current_room.get_exits()}
+                
+                player.travel(self.direction)
+                next_id = player.current_room.id
 
-            self.rooms[current_id] = { key: "" for key in player.current_room.get_exits()}
-            
-            player.travel(self.direction)
-            next_id = player.current_room.id
+                self.rooms[next_id] = { key: "" for key in player.current_room.get_exits()}
 
-            self.rooms[next_id] = { key: "" for key in player.current_room.get_exits()}
+                # print(str(next_id))
 
-            # print(str(next_id))
-
-            # Map around
-            self.rooms[current_id][self.direction] = next_id
-            self.rooms[next_id][opposites[self.direction]] = current_id
-               
+                # Map around
+                self.rooms[current_id][self.direction] = next_id
+                self.rooms[next_id][opposites[self.direction]] = current_id
+                visited.add(current_id)
                 
 
 

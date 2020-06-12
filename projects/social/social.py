@@ -90,12 +90,6 @@ class SocialGraph:
 
         print(f"Total collisions: {collisions}")
 
-
-
-
-
-
-
         # Create Frienships
         # Generate all possible friendship combinations
         # possible_friendships = []
@@ -171,7 +165,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10000, 4)
+    sg.populate_graph(100, 4)
     # print("Friendships")
     # print(sg.friendships)
     connections = sg.get_all_social_paths(1)

@@ -76,7 +76,7 @@ def dft(row, col, matrix, visited):
 
     s.push((row, col)) # Storing as a tuple
     while s.size() > 0:
-        row, col = s.pop() # Pulling and destructuing
+        row, col = s.pop() # Pulling and destructuring
         if not visited[row][col]:
             visited[row][col] = True
 
