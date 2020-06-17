@@ -89,6 +89,8 @@ class SocialGraph:
                 collisions += 1
 
         print(f"Total collisions: {collisions}")
+        print(self.friendships)
+        print(self.users)
 
         # Create Frienships
         # Generate all possible friendship combinations
@@ -141,8 +143,10 @@ class SocialGraph:
 
             # Dequeue first path
             path = q.dequeue()
+            # print(path)
 
             vertex = path[-1]
+            # print(vertex)
 
             # If not visited
             if vertex not in visited:
@@ -151,6 +155,7 @@ class SocialGraph:
                 # What do we need to do?
                 # Add to visited
                 visited[vertex] = path
+                print("This is visited", visited)
 
                 # For each neighbor of vertex
                 for neighbor in self.friendships[vertex]:
@@ -159,7 +164,6 @@ class SocialGraph:
                     copy_path = path[:]
                     copy_path.append(neighbor)
                     q.enqueue(copy_path)
-
         return visited
 
 
